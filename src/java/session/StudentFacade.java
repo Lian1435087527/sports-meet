@@ -40,4 +40,8 @@ public class StudentFacade extends AbstractFacade<Student> {
         getEntityManager().merge(stu);
         getEntityManager().flush();
     }
+    
+    public void flush(){
+        em.flush();
+    }
 }
