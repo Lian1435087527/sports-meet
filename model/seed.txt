@@ -1,0 +1,39 @@
+INSERT INTO `category` (`name`) VALUES ('田径');
+INSERT INTO `category` (`name`) VALUES ('球类');
+INSERT INTO `category` (`name`) VALUES ('其他');
+
+INSERT INTO `competition` (`name`,headcount,type,category_idcategory,start_time,end_time)
+VALUES ('跳高',20,0,(SELECT idcategory FROM category WHERE `name`='田径'),'2018-09-17 10:00:00.000','2018-09-17 11:00:00.000');
+
+INSERT INTO `competition` (`name`,headcount,type,category_idcategory,start_time,end_time)
+VALUES ('跳远',20,0,(SELECT idcategory FROM category WHERE `name`='田径'),'2018-09-17 10:00:00.000','2018-09-17 10:30:00.000');
+
+INSERT INTO `competition` (`name`,headcount,type,category_idcategory,start_time,end_time)
+VALUES ('1000m跑',20,0,(SELECT idcategory FROM category WHERE `name`='田径'),'2018-09-17 10:20:00.000','2018-09-17 10:50:00.000');
+
+INSERT INTO `competition` (`name`,headcount,type,category_idcategory,start_time,end_time)
+VALUES ('足球',24,1,(SELECT idcategory FROM category WHERE `name`='球类'),'2018-09-17 14:45:00.000','2018-09-17 16:00:00.000');
+
+INSERT INTO `competition` (`name`,headcount,type,category_idcategory,start_time,end_time)
+VALUES ('实心球',20,1,(SELECT idcategory FROM category WHERE `name`='球类'),'2018-09-17 11:20:00.000','2018-09-17 11:50:00.000');
+
+INSERT INTO `competition` (`name`,headcount,type,category_idcategory,start_time,end_time)
+VALUES ('乒乓球',16,1,(SELECT idcategory FROM category WHERE `name`='球类'),'2018-09-17 10:00:00.000','2018-09-17 11:50:00.000');
+
+INSERT INTO `competition` (`name`,headcount,type,category_idcategory,start_time,end_time)
+VALUES ('跳大绳',32,0,(SELECT idcategory FROM category WHERE `name`='其他'),'2018-09-17 13:00:00.000','2018-09-17 13:30:00.000');
+
+NSERT INTO `competition` (`name`,headcount,type,category_idcategory,start_time,end_time)
+VALUES ('拔河',40,0,(SELECT idcategory FROM category WHERE `name`='其他'),'2018-09-17 16:20:00.000','2018-09-17 16:50:00.000');
+
+INSERT INTO `competition` (`name`,headcount,type,category_idcategory,start_time,end_time)
+VALUES ('两人三足',40,0,(SELECT idcategory FROM category WHERE `name`='其他'),'2018-09-17 13:45:00.000','2018-09-17 14:15:00.000');
+
+
+INSERT INTO `student` (`name`,idstudent,sex) VALUES ('男1', 2016211001 ,'男');
+INSERT INTO `student` (`name`,idstudent,sex) VALUES ('男2',2016211002,'男');
+INSERT INTO `student` (`name`,idstudent,sex) VALUES ('男3',2016211003,'男');
+INSERT INTO `student` (`name`,idstudent,sex) VALUES ('男4',2016211004,'男');
+INSERT INTO `student` (`name`,idstudent,sex) VALUES ('男5',2016211005,'男');
+INSERT INTO `student` (`name`,idstudent,sex) VALUES ('女2',2016211011,'女');
+INSERT INTO `student` (`name`,idstudent,sex) VALUES ('女1',2016211012,'女');
