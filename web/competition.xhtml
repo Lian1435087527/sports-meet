@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    </h:head>
+    <h:body>
+        <h:panelGroup class="side-pane">
+            <p class="func-title">过滤</p>
+            <h:form>
+                <div class="filter-check">
+                    <h:selectBooleanCheckbox value="#{competition.filter_joined}"
+                                             label="filter_joined"
+                                             valueChangeListener="#{competition.onFilterChange}"
+                                                onclick="submit()"/>
+                    <span>已报项目</span>
+                </div>
+                <div class="filter-check">
+                    <h:selectBooleanCheckbox value="#{competition.filter_canjoin}"
+                                             label="filter_canjoin"
+                                             valueChangeListener="#{competition.onFilterChange}"
+                                                onclick="submit()"/>
+                    <span>我能报名的</span>
+                </div>
+                <c:forEach items="#{competition.categories}" var="ca">
+                    <div class="filter-check">
+                        <h:selectBooleanCheckbox  value="#{competition.filter_category.get(ca.getName())}"
+                                                  label="filter_category_#{ca.name}"
+                                                 valueChangeListener="#{competition.onFilterChange}"
+                                                onclick="submit()"/>
+                        <span>#{ca.name}</span>
+                    </div>
+                </c:forEach>
+            </h:form>
+            <p class="func-title">报名</p>
+            <h:form>
+                <h:commandButton class="button" value="确认报名" action="#{competition.confirm}"/>
+            </h:form>
+        </h:panelGroup>
+        <c:forEach items="#{competition.getFilteredCategories()}" var="ca">
+            #{ca.name}
+            <h:dataTable value="#{competition.getFilteredCompetitionsByCategory(ca)}"
+                         var="c">
+                <h:column>
+                    <f:facet name="header">报名</f:facet>
+                    <h:form>
+                        <h:selectBooleanCheckbox value="#{c.selected}"
+                                                onclick="submit()" />
+                    </h:form>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">项目</f:facet>
+                        #{c.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">总人数</f:facet>
+                        #{c.total}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">剩余人数</f:facet>
+                        #{c.rest}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">时间</f:facet>
+                        #{c.timeRange}
+                </h:column>
+            </h:dataTable>
+        </c:forEach>
+    </h:body>
+</html>
+
