@@ -155,7 +155,8 @@ public class Competition implements Serializable {
         return ret;
     }
 
-    private entity.Student getCurStu() {
+    
+    public entity.Student getCurStu() {
         HttpSession session = (HttpSession) FacesContext
                 .getCurrentInstance()
                 .getExternalContext()
@@ -164,7 +165,7 @@ public class Competition implements Serializable {
         entity.Student stu = studentFacade.find(session.getAttribute("cur_stu_id"));
         return stu;
     }
-
+    
     public List<CompetitionIndex> getFilteredCompetitionsByCategory(entity.Category category) {
         List<CompetitionIndex> observed = compIndexMap.get(category).stream()
                 .filter((competition_index) -> !filter_joined || hasjoin(competition_index.getRaw()))
