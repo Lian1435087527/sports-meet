@@ -5,6 +5,7 @@
  */
 package entity;
 
+import com.sun.xml.rpc.processor.modeler.j2ee.xml.emptyType;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -189,5 +190,5 @@ public class Competition implements Serializable {
     public String toString() {
         return "entity.Competition[ idcompetition=" + idcompetition + " ]";
     }
-    
+
 }

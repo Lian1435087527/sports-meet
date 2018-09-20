@@ -7,69 +7,88 @@
     <h:head>
         <title>Facelet Title</title>
         <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+        <link rel="stylesheet" type="text/css" href="web/css/overhang.min.css" />
+        <script type="text/javascript" src="web/js/overhang.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
     </h:head>
-    <h:body>
+    <h:body>    
+        <!--<h:outputLabel transient="true" id="msg" value="#{flash['msg']}" />-->
+        <script>
+            $("body").overhang({
+                type: "#{flash['level']}",
+                message: "#{flash['msg']}"
+            });
+        </script>
         <h:panelGroup class="side-pane">
             <p class="func-title">过滤</p>
             <h:form>
                 <div class="filter-check">
                     <h:selectBooleanCheckbox value="#{competition.filter_joined}"
-                                             label="filter_joined"
-                                             valueChangeListener="#{competition.onFilterChange}"
-                                                onclick="submit()"/>
+                                             id="filter_joined">
+                        <f:ajax execute="tables" render="tables"/>
+                    </h:selectBooleanCheckbox>
                     <span>已报项目</span>
                 </div>
                 <div class="filter-check">
                     <h:selectBooleanCheckbox value="#{competition.filter_canjoin}"
-                                             label="filter_canjoin"
-                                             valueChangeListener="#{competition.onFilterChange}"
-                                                onclick="submit()"/>
+                                             id="filter_canjoin"
+                                             >
+                        <!--<f:ajax execute="filter_conjoin tables" render="tables"/>-->
+                    </h:selectBooleanCheckbox>
                     <span>我能报名的</span>
                 </div>
                 <c:forEach items="#{competition.categories}" var="ca">
                     <div class="filter-check">
-                        <h:selectBooleanCheckbox  value="#{competition.filter_category.get(ca.getName())}"
-                                                  label="filter_category_#{ca.name}"
-                                                 valueChangeListener="#{competition.onFilterChange}"
-                                                onclick="submit()"/>
+                        <h:selectBooleanCheckbox  value="${(competition.getFilter_category())[ca.getName()]}"
+                                                  id="filter_category_#{ca.name}"
+                                                  >
+                            <f:ajax execute="tables" render="tables"/>
+                        </h:selectBooleanCheckbox>
                         <span>#{ca.name}</span>
                     </div>
                 </c:forEach>
             </h:form>
             <p class="func-title">报名</p>
             <h:form>
-                <h:commandButton class="button" value="确认报名" action="#{competition.confirm}"/>
+                <h:commandButton class="button" value="确认报名" action="#{competition.confirm}">
+                    <!--<f:ajax execute="tables" render="tables"/>-->
+                </h:commandButton>
             </h:form>
         </h:panelGroup>
-        <c:forEach items="#{competition.getFilteredCategories()}" var="ca">
-            #{ca.name}
-            <h:dataTable value="#{competition.getFilteredCompetitionsByCategory(ca)}"
-                         var="c">
-                <h:column>
-                    <f:facet name="header">报名</f:facet>
-                    <h:form>
-                        <h:selectBooleanCheckbox value="#{c.selected}"
-                                                onclick="submit()" />
-                    </h:form>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">项目</f:facet>
-                        #{c.name}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">总人数</f:facet>
-                        #{c.total}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">剩余人数</f:facet>
-                        #{c.rest}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">时间</f:facet>
-                        #{c.timeRange}
-                </h:column>
-            </h:dataTable>
-        </c:forEach>
+        <h:panelGroup id="tables">
+            <c:forEach items="#{competition.getFilteredCategories()}" var="ca">
+                #{ca.name}
+                <h:dataTable value="#{competition.getFilteredCompetitionsByCategory(ca)}"
+                             var="c">
+                    <h:column>
+                        <f:facet name="header">报名</f:facet>
+                        <h:form>
+                            <h:selectBooleanCheckbox value="#{c.selected}"
+                                                     >
+                                <f:ajax execute="tables" render="tables"/>
+                            </h:selectBooleanCheckbox>
+                        </h:form>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">项目</f:facet>
+                            #{c.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">总人数</f:facet>
+                            #{c.total}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">剩余人数</f:facet>
+                            #{c.rest}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">时间</f:facet>
+                            #{c.timeRange}
+                    </h:column>
+                </h:dataTable>
+            </c:forEach>
+        </h:panelGroup>
     </h:body>
 </html>
 

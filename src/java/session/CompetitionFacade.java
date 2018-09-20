@@ -39,4 +39,8 @@ public class CompetitionFacade extends AbstractFacade<Competition> {
     public int getJoinCntById(Integer id){
         return findStudentsByCompetitionId(id).size();
     }
+    
+    public void flush(){
+        em.flush();
+    }
 }

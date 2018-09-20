@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.ejb.AfterBegin;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.TransactionAttribute;
@@ -33,11 +34,15 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.persistence.Entity;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpSession;
 import session.StudentFacade;
@@ -62,6 +67,10 @@ public class Competition implements Serializable {
 
     private List<entity.Category> categories;
     private Map<entity.Category, List<CompetitionIndex>> compIndexMap = new HashMap<>();
+
+    public void fresh(ComponentSystemEvent event) {
+        init();
+    }
 
     @PostConstruct
     public void init() {
@@ -152,7 +161,7 @@ public class Competition implements Serializable {
                 .getExternalContext()
                 .getSession(true);
 
-        entity.Student stu = (entity.Student) session.getAttribute("cur_stu");
+        entity.Student stu = studentFacade.find(session.getAttribute("cur_stu_id"));
         return stu;
     }
 
@@ -165,23 +174,14 @@ public class Competition implements Serializable {
     }
 
     public boolean hasjoin(entity.Competition competition) {
-        HttpSession session = (HttpSession) FacesContext
-                .getCurrentInstance()
-                .getExternalContext()
-                .getSession(true);
-
-        entity.Student stu = (entity.Student) session.getAttribute("cur_stu");
+        entity.Student stu = getCurStu();
         boolean joined = stu.getCompetitionCollection().contains(competition);
 
         return joined;
     }
 
     public boolean sexfit(entity.Competition competition) {
-        HttpSession session = (HttpSession) FacesContext
-                .getCurrentInstance()
-                .getExternalContext()
-                .getSession(true);
-        entity.Student stu = (entity.Student) session.getAttribute("cur_stu");
+        Student stu = getCurStu();
         Character sex = stu.getSex();
         int type = competition.getType();
         if (sex == '男') {
@@ -219,7 +219,7 @@ public class Competition implements Serializable {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public String confirm() {
+    public String confirm() throws IOException {
         try {
             entity.Student stu = getCurStu();
             Collection<entity.Competition> joined = studentFacade.getCompetitionCollection(stu);
@@ -238,13 +238,28 @@ public class Competition implements Serializable {
                         comp.getStudentCollection().add(stu);
                         competitionFacade.edit(comp);
                     });
+//            getCurStu().setCompetitionCollection(cur);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.getExternalContext().getFlash().put("msg", "报名成功");
+            context.getExternalContext().getFlash().put("level", "success");
+//            context.addMessage(null, new FacesMessage("报名成功"));
         } catch (Exception e) {
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("出现了点问题，报名失败"));
-            return "success";
+            context.getExternalContext().getFlash().put("msg", "报名失败");
+            context.getExternalContext().getFlash().put("level", "fail");
+//            context.addMessage(null, new FacesMessage("出现了点问题，报名失败"));
         }
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("报名成功"));
-        return "success";
+
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        sessionMap.forEach((key,value)->{
+            if(value.toString().contains("ejb.Competition")){
+                sessionMap.remove(key);
+            }
+        });
+//        cao=FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+        return "finish";
     }
 }

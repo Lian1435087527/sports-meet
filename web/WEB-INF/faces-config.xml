@@ -15,4 +15,13 @@
             <to-view-id>/login.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/competition.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>finish</from-outcome>
+            <to-view-id>/competition.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
 </faces-config>

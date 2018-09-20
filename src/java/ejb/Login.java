@@ -62,7 +62,7 @@ public class Login implements Serializable{
                         .getCurrentInstance()
                         .getExternalContext()
                         .getSession(true);
-                session.setAttribute("cur_stu", studentFacade.find(id));
+                session.setAttribute("cur_stu_id", id);
                 return "success";
             }
             errmsg="用户名或密码不正确";
