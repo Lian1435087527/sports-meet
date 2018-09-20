@@ -1,0 +1,128 @@
+#main{
+    position: relative;
+    width: 1140px;
+    height: 640px;
+}
+
+#top {
+    position: relative;
+    background-color: white;
+    padding: 5px;
+    margin: 0px 0px 0px 0px;
+    height: 145px;
+    opacity: 0.2;
+}
+
+#bottom {
+    position: relative;
+    background-color: white;
+    padding: 5px;
+    margin: 0px 0px 0px 0px;
+    height: 145px; 
+    text-align: center;
+    opacity: 0.2;
+}
+
+#left {
+    float: left;
+    background-color: white; 
+    padding: 5px;
+    width: 270px;
+    height: 350px;
+    opacity: 0.2;
+}
+
+#right {
+    float: right;
+    background-color: white;
+    padding: 5px;
+    width: 270px;
+    height: 350px;
+    opacity: 0.2;
+}
+
+.center_content {
+    position: relative;
+    background-color: #dddddd;
+    padding: 5px;
+}
+
+.left_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin-left: 170px;
+}
+
+.right_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin: 0px 270px 0px 270px;
+    height: 350px;
+    opacity: 0.5;
+}
+
+#top a:link, #top a:visited {
+  color: white;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+  color: black;
+  font-weight : bold;
+  text-decoration : underline;
+}
+
+.contentname{
+    height: 75px;
+    background-color: white;
+    font-family: Kaiti;
+    text-align: center;
+    font-size: 30px;
+    padding: 10px;
+}
+.contentrow1{
+    height: 70px;
+    background-color: orange;
+    font-family: Kaiti;
+    text-align: center;
+    font-size: 20px;
+    padding: 5px;
+}
+.contentrow2{
+    height: 70px;
+    background-color: white;
+    font-family: Kaiti;
+    text-align: center;
+    font-size: 20px;
+    padding: 5px;
+}
+.resetinput{
+    font-family: Kaiti;
+    font-size: 20px;
+    margin: 0 10px;
+}
+#contentrow3{
+    height: 135px;
+    background-color: orange;
+    font-family: Kaiti;
+    text-align: center;
+    font-size: 20px;
+    padding: 5px;
+}
+.outputtext{
+    font-family: Kaiti;
+    font-size: 20px;
+    margin: 0 130px;
+    color: red;
+}
+#reset{
+    font-family: Kaiti;
+    font-size: 20px;
+    display: inline;
+    margin-top: 50px;
+}
+
+
+
+
